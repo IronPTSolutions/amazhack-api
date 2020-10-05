@@ -4,6 +4,7 @@ const authMiddleware = require('../middlewares/auth.middleware')
 const baseController = require('../controllers/base.controller');
 const userController = require('../controllers/user.controller');
 const productController = require('../controllers/product.controller');
+const reviewController = require('../controllers/review.controller');
 
 module.exports = router;
 
@@ -15,3 +16,6 @@ router.get('/logout', authMiddleware.isAuthenticated, userController.logout)
 
 // Products
 router.get('/product', productController.list);
+
+// Reviews
+router.get('/reviews', reviewController.list)
