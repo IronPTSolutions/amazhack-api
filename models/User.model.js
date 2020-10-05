@@ -40,6 +40,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'user',
+  justOne: false,
+});
+
 userSchema.pre("save", function (next) {
   const user = this;
 

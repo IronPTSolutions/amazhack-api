@@ -21,12 +21,12 @@ Promise.all([
         name: faker.name.findName(),
         address: faker.address.streetAddress(),
       });
+
       user
         .save()
         .then((u) => {
           userIds.push(u._id);
 
-          console.log('userIds: ,', userIds);
           for (let i = 0; i < productN; i++) {
             const product = new Product({
               name: faker.commerce.productName(),
@@ -34,21 +34,25 @@ Promise.all([
               price: faker.commerce.price(),
               user: u._id,
             });
+
             product
               .save()
               .then((p) => {
-                console.log(p.name);
                 for (let i = 0; i < 3; i++) {
                   const filteredUserIds = userIds.filter( id => id !== u._id);
+                  const randomUserId = filteredUserIds[Math.floor(Math.random() * filteredUserIds.length)]
 
                   const review = new Review({
                     title: faker.lorem.words(),
                     description: faker.lorem.paragraph(),
                     score: Math.ceil(Math.random() * 5),
                     product: p._id,
-                    user: filteredUserIds[Math.floor(Math.random * filteredUserIds.length)] 
-
+                    user: Object(randomUserId)
                   })
+
+                  review.save()
+                    .then()
+                    .catch((e) => console.log(e));
                 }
               })
               .catch((e) => console.log(e));
