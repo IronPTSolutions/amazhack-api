@@ -18,3 +18,5 @@ router.get('/user/:id', authMiddleware.isAuthenticated, userController.profile);
 
 // Products
 router.get('/product', productController.list);
+router.post('/product', productController.create);
+// 
