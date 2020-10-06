@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const EMAIL_PATTERN = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const SALT_WORK_FACTOR = 10;
+const Product = require('./Product.model')
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,6 +43,13 @@ const userSchema = new mongoose.Schema(
 
 userSchema.virtual('reviews', {
   ref: 'Review',
+  localField: '_id',
+  foreignField: 'user',
+  justOne: false,
+});
+
+userSchema.virtual('product', {
+  ref: 'Product',
   localField: '_id',
   foreignField: 'user',
   justOne: false,

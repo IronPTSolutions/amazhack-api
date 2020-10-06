@@ -21,6 +21,7 @@ Promise.all([
         name: faker.name.findName(),
         address: faker.address.streetAddress(),
       });
+      console.log(user)
 
       user
         .save()

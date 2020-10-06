@@ -14,8 +14,12 @@ router.get('/', authMiddleware.isNotAuthenticated, baseController.index)
 router.post('/login', authMiddleware.isNotAuthenticated, userController.login)
 router.get('/logout', authMiddleware.isAuthenticated, userController.logout)
 
-// Products
+// Products:
+// List products as buyer
+// This shouldn't return your own products if you have them
 router.get('/product', productController.list);
+//List the products a user is selling
+router.get('/:id/product', productController.listUserProducts)
 
 // Reviews
 router.get('/reviews', reviewController.list)
