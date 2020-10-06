@@ -18,3 +18,13 @@ module.exports.listUserProducts = (req, res, next) => {
   })
   .catch((e) => next(e));
 }
+
+
+module.exports.listOtherProducts = (req, res, next) => {
+  Product.find({"user":{$ne: req.params.id}})
+  .then(user => {
+    console.log(user)
+    res.json(user)
+  })
+  .catch((e) => next(e));
+}

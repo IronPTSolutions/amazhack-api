@@ -20,6 +20,8 @@ router.get('/logout', authMiddleware.isAuthenticated, userController.logout)
 router.get('/product', productController.list);
 //List the products a user is selling
 router.get('/:id/product', productController.listUserProducts)
+// List products as buyer
+router.get('/:id/other-product', productController.listOtherProducts)
 
 // Reviews
 router.get('/reviews', reviewController.list)
