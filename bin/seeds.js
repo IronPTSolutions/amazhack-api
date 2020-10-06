@@ -1,3 +1,4 @@
+require('dotenv').config();
 require("../config/db.config");
 const User = require("../models/User.model");
 const Product = require("../models/Product.model");
