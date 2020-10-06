@@ -36,3 +36,4 @@ router.delete(
 
 // Reviews
 router.post("/product/:id/review", authMiddleware.isAuthenticated, productController.createReview)
+router.delete("/review/:id", authMiddleware.isAuthenticated, productController.deleteReview)
