@@ -1,4 +1,5 @@
 const Product = require("../models/Product.model");
+const createError = require("http-errors");
 
 module.exports.list = (req, res, next) => {
   Product.find()
@@ -24,9 +25,15 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.edit = (req, res, next) => {
-  Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  Product.findById(req.params.id)
     .then((p) => {
-      res.json(p);
+      if (p.user != req.currentUser.id) {
+        throw createError(403, "You can't edit another user's products");
+      } else {
+        return p.update(req.body).then((editedProduct) => {
+          res.json(editedProduct);
+        });
+      }
     })
     .catch((e) => next(e));
 };
