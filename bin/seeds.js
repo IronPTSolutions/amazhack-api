@@ -1,12 +1,14 @@
-require('dotenv').config();
+require("dotenv").config();
 require("../config/db.config");
 const User = require("../models/User.model");
 const Product = require("../models/Product.model");
+const Review = require("../models/Review.model");
 const faker = require("faker");
 
 const userIds = [];
 const userN = 30;
 const productN = 5;
+const reviewN = 5;
 
 Promise.all([User.deleteMany(), Product.deleteMany()])
   .then(() => {
@@ -21,6 +23,7 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
         .save()
         .then((u) => {
           console.log(u.email);
+          userIds.push(u.id);
           for (let i = 0; i < productN; i++) {
             const product = new Product({
               name: faker.commerce.productName(),
@@ -32,6 +35,20 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
               .save()
               .then((p) => {
                 console.log(p.name);
+                for (let i = 0; i < reviewN; i++) {
+                  const review = new Review({
+                    title: faker.lorem.sentence(),
+                    description: faker.lorem.paragraph(),
+                    score: Math.floor(4 * Math.random() + 1),
+                    product: p._id,
+                    user: userIds.filter((u) => u !== u.id)[
+                      Math.floor(Math.random() * (userIds.length - 2))
+                    ],
+                  });
+                  return review.save().then((r) => {
+                    console.log(r.title);
+                  });
+                }
               })
               .catch((e) => console.log(e));
           }
