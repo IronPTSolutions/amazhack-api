@@ -28,3 +28,6 @@ router.patch(
   authMiddleware.isAuthenticated,
   productController.edit
 );
+
+// Reviews
+router.post("/product/:id/review", authMiddleware.isAuthenticated, productController.createReview)
