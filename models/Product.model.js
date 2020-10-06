@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./User.model");
+const Review = require("./Review.model");
 
 const productSchema = new mongoose.Schema(
   {
@@ -24,6 +25,7 @@ const productSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (document, toReturn) => {
         toReturn.id = document._id;
         delete toReturn.__v;
@@ -35,6 +37,12 @@ const productSchema = new mongoose.Schema(
     },
   }
 );
+
+productSchema.virtual("reviews", {
+  ref: "Review",
+  localField: "_id",
+  foreignField: "product",
+});
 
 const Product = mongoose.model("Product", productSchema);
 

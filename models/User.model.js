@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (document, toReturn) => {
         toReturn.id = document._id;
         delete toReturn.password;
@@ -60,10 +61,20 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.methods.checkPassword = function (password) {
-  console.log(password);
-  console.log(this.password);
   return bcrypt.compare(password, this.password);
 };
+
+userSchema.virtual("reviews", {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'user'
+});
+
+userSchema.virtual("products", {
+  ref: 'Product',
+  localField: '_id',
+  foreignField: 'user'
+});
 
 const User = mongoose.model("User", userSchema);
 

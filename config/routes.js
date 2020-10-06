@@ -13,5 +13,8 @@ router.get('/', authMiddleware.isNotAuthenticated, baseController.index)
 router.post('/login', authMiddleware.isNotAuthenticated, userController.login)
 router.get('/logout', authMiddleware.isAuthenticated, userController.logout)
 
+// Users
+router.get('/user/:id', authMiddleware.isAuthenticated, userController.profile);
+
 // Products
 router.get('/product', productController.list);

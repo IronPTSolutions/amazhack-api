@@ -45,7 +45,7 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
                       Math.floor(Math.random() * (userIds.length - 2))
                     ],
                   });
-                  return review.save().then((r) => {
+                  review.save().then((r) => {
                     console.log(r.title);
                   });
                 }
