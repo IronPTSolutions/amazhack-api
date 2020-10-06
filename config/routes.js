@@ -28,6 +28,11 @@ router.patch(
   authMiddleware.isAuthenticated,
   productController.edit
 );
+router.delete(
+  "/product/:id",
+  authMiddleware.isAuthenticated,
+  productController.delete
+);
 
 // Reviews
 router.post("/product/:id/review", authMiddleware.isAuthenticated, productController.createReview)

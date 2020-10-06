@@ -39,6 +39,29 @@ module.exports.edit = (req, res, next) => {
     .catch((e) => next(e));
 };
 
+module.exports.delete = (req, res, next) => {
+  Product.findById(req.params.id)
+    .then((p) => {
+      if (!p) {
+        throw createError(404, "Product not found");
+      } else {
+        if (p.user != req.currentUser.id) {
+          throw createError(
+            403,
+            "You cannot delete products that aren't yours"
+          );
+        } else {
+          return p.delete().then(() => {
+            return Review.remove({ product: p.id }).then((r) => {
+              res.json({});
+            });
+          });
+        }
+      }
+    })
+    .catch((e) => next(e));
+};
+
 module.exports.createReview = (req, res, next) => {
   Product.findById(req.params.id)
     .then((p) => {
@@ -55,5 +78,5 @@ module.exports.createReview = (req, res, next) => {
         });
       }
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 };
