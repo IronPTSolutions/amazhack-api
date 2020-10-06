@@ -17,16 +17,31 @@ module.exports.list = (req, res, next) => {
 module.exports.addReview = (req, res, next) => {
 
     const { title, description, score } = req.body;
+ 
+        const review = new Review({
+            title: title,
+            description: description,
+            score: score,
+            user: req.session.user.id,
+            product: req.params.id
+        })
+        review.save()
+            .then(rev => res.json(rev))
+            .catch((e) => next(e));
+   
+};
 
-    const review = new Review({
-        title: title,
-        description: description,
-        score: score,
-        user: req.session.user.id,
-        product: req.params.id
-    })
-    review.save()
-        .then(rev => res.json(rev))
-        .catch((e) => next(e));
+module.exports.deleteReview = (req, res, next) => {
+
+    const id = req.params
+    console.log(id)
+    
+        Review.findOneAndDelete(id)
+            .then(rev => {
+                console.log(rev)
+                res.json({message : 'review deleted!'})
+            })
+            .catch((e) => next(e))
+   
 };
 
