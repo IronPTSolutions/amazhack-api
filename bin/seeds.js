@@ -35,19 +35,21 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
               .save()
               .then((p) => {
                 console.log(p.name);
-                for (let i = 0; i < reviewN; i++) {
-                  const review = new Review({
-                    title: faker.lorem.sentence(),
-                    description: faker.lorem.paragraph(),
-                    score: Math.floor(4 * Math.random() + 1),
-                    product: p._id,
-                    user: userIds.filter((u) => u !== u.id)[
-                      Math.floor(Math.random() * (userIds.length - 2))
-                    ],
-                  });
-                  review.save().then((r) => {
-                    console.log(r.title);
-                  });
+                if (userIds.length >= 2) {
+                  for (let i = 0; i < reviewN; i++) {
+                    const review = new Review({
+                      title: faker.lorem.sentence(),
+                      description: faker.lorem.paragraph(),
+                      score: Math.floor(4 * Math.random() + 1),
+                      product: p._id,
+                      user: userIds.filter((u) => u != p.user)[
+                        Math.floor(Math.random() * (userIds.length - 2))
+                      ],
+                    });
+                    review.save().then((r) => {
+                      console.log(r.title);
+                    });
+                  }
                 }
               })
               .catch((e) => console.log(e));
