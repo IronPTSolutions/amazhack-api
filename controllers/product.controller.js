@@ -4,7 +4,7 @@ const User= require("../models/User.model");
 module.exports.list = (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log(products)
+      
       res.json(products);
     })
     .catch((e) => next(e));
@@ -13,7 +13,7 @@ module.exports.list = (req, res, next) => {
 module.exports.listUserProducts = (req, res, next) => {
   Product.find({"user":req.params.id})
   .then(user => {
-    console.log(user)
+    
     res.json(user)
   })
   .catch((e) => next(e));
@@ -23,8 +23,17 @@ module.exports.listUserProducts = (req, res, next) => {
 module.exports.listOtherProducts = (req, res, next) => {
   Product.find({"user":{$ne: req.params.id}})
   .then(user => {
-    console.log(user)
-    res.json(user)
+    
+    res.json(user.reviews)
+  })
+  .catch((e) => next(e));
+}
+module.exports.searchProduct = (req, res, next) => {
+  console.log(req.query.name)
+  Product.find({'name': {$regex: req.query.name , $options: "i"}} )
+  .then(product => {
+      console.log(product)
+    res.json(product)
   })
   .catch((e) => next(e));
 }

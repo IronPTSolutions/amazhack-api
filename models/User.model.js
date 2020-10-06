@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (document, toReturn) => {
         toReturn.id = document._id;
         delete toReturn.password;
@@ -48,7 +49,7 @@ userSchema.virtual('reviews', {
   justOne: false,
 });
 
-userSchema.virtual('product', {
+userSchema.virtual('products', {
   ref: 'Product',
   localField: '_id',
   foreignField: 'user',
