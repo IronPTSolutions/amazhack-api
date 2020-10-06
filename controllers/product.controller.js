@@ -13,10 +13,18 @@ module.exports.list = (req, res, next) => {
 module.exports.create = (req, res, next) => {
   const product = new Product({
     ...req.body,
-    user: req.session.user.id
+    user: req.session.user.id,
   });
   product
     .save()
+    .then((p) => {
+      res.json(p);
+    })
+    .catch((e) => next(e));
+};
+
+module.exports.edit = (req, res, next) => {
+  Product.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((p) => {
       res.json(p);
     })
