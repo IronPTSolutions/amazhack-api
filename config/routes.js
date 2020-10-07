@@ -10,7 +10,7 @@ module.exports = router;
 router.get("/", authMiddleware.isNotAuthenticated, baseController.index);
 
 // Authentication
-router.post("/login", authMiddleware.isNotAuthenticated, userController.login);
+router.post("/login", userController.login);
 router.get("/logout", authMiddleware.isAuthenticated, userController.logout);
 
 // Users
