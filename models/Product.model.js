@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Price is required"],
     },
+    image: String,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

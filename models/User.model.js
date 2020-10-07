@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Name is required"],
     },
+    image: String,
     address: {
       type: String,
       required: [true, "Address is required"],

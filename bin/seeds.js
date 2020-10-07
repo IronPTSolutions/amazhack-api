@@ -18,6 +18,7 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
         password: "1234567890",
         name: faker.name.findName(),
         address: faker.address.streetAddress(),
+        image: faker.image.avatar()
       });
       user
         .save()
@@ -29,6 +30,7 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
               name: faker.commerce.productName(),
               description: faker.lorem.paragraph(),
               price: faker.commerce.price(),
+              image: faker.image.image(),
               user: u._id,
             });
             product
