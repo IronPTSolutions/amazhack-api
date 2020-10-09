@@ -43,7 +43,7 @@ router.delete('/review/delete/:id',  authMiddleware.isAuthenticated, reviewContr
 
 //Edit a review you wrote
 router.patch('/review/edit/:id', authMiddleware.isAuthenticated, reviewController.updateReview)
-=======
+
 // Products
 router.get("/product", authMiddleware.isAuthenticated, productController.list);
 router.post(
