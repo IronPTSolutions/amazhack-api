@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Name is required"],
     },
+    image: String,
     address: {
       type: String,
       required: [true, "Address is required"],
@@ -76,10 +77,20 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.methods.checkPassword = function (password) {
-  console.log(password);
-  console.log(this.password);
   return bcrypt.compare(password, this.password);
 };
+
+userSchema.virtual("reviews", {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'user'
+});
+
+userSchema.virtual("products", {
+  ref: 'Product',
+  localField: '_id',
+  foreignField: 'user'
+});
 
 const User = mongoose.model("User", userSchema);
 

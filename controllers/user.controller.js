@@ -7,7 +7,7 @@ const User = require("../models/User.model");
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    throw createError(400, "Missing credentials"); 
+    throw createError(400, "Missing credentials");
   }
   User.findOne({ email })
     .then((user) => {
@@ -43,4 +43,20 @@ module.exports.listUser = (req, res, next) => {
      res.json(user)
     })
     .catch((e) => next(e));
+};
+
+module.exports.profile = (req, res, next) => {
+  User.findById(req.params.id)
+    .populate("reviews")
+    .populate("products")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "product",
+        model: "Product"
+      },
+    })
+    .then((u) => {
+      res.json(u);
+    });
 };

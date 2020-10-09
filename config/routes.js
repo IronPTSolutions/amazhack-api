@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const authMiddleware = require('../middlewares/auth.middleware')
 const baseController = require('../controllers/base.controller');
@@ -8,12 +8,14 @@ const reviewController = require('../controllers/review.controller');
 
 module.exports = router;
 
-router.get('/', authMiddleware.isNotAuthenticated, baseController.index)
+router.get("/", authMiddleware.isNotAuthenticated, baseController.index);
 
 // Authentication
-router.post('/login', authMiddleware.isNotAuthenticated, userController.login)
-router.get('/logout', authMiddleware.isAuthenticated, userController.logout)
+router.post("/login", userController.login);
+router.get("/logout", authMiddleware.isAuthenticated, userController.logout);
 
+// Users
+router.get("/user/:id", authMiddleware.isAuthenticated, userController.profile);
 
 // User:
 router.get('/user/:id', authMiddleware.isAuthenticated, userController.listUser)
@@ -41,3 +43,24 @@ router.delete('/review/delete/:id',  authMiddleware.isAuthenticated, reviewContr
 
 //Edit a review you wrote
 router.patch('/review/edit/:id', authMiddleware.isAuthenticated, reviewController.updateReview)
+=======
+// Products
+router.get("/product", authMiddleware.isAuthenticated, productController.list);
+router.post(
+  "/product",
+  authMiddleware.isAuthenticated,
+  productController.create
+);
+router.patch(
+  "/product/:id",
+  authMiddleware.isAuthenticated,
+  productController.edit
+);
+router.delete(
+  "/product/:id",
+  authMiddleware.isAuthenticated,
+  productController.delete
+);
+
+
+

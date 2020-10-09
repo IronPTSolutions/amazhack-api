@@ -5,27 +5,29 @@ const Product = require("./Product.model");
 const reviewSchema = new mongoose.Schema(
   {
     title: {
-        type: String,
-        required: [true, "Title is required"],
+      type: String,
+      required: [true, "Title is required"],
     },
     description: {
-        type: String,
-        required: [true, "Description is required"],
+      type: String,
+      required: [true, "Description is required"],
     },
     score: {
-        type: String,
-        required: [true, "Score is required"],
+      type: Number,
+      get: (v) => Math.round(v),
+      set: (v) => Math.round(v),
+      required: [true, "Score is required"],
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "User",
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
     product: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Product",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Product",
+    },
   },
   {
     timestamps: true,
