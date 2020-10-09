@@ -34,14 +34,31 @@ module.exports.addReview = (req, res, next) => {
 module.exports.deleteReview = (req, res, next) => {
 
     const id = req.params
-    console.log(id)
     
         Review.findOneAndDelete(id)
-            .then(rev => {
-                console.log(rev)
+            .then(() => {
                 res.json({message : 'review deleted!'})
             })
             .catch((e) => next(e))
    
 };
+
+module.exports.updateReview = (req, res, next) => {
+
+    const reviewId = req.params.id;
+    const userId = req.session.user.id
+
+    Review.findByIdAndUpdate( reviewId , req.body)
+        .then( review => {
+            
+            if( userId.toString() !== review.user.toString()) {
+                res.json(createError(403))
+            } else {
+                res.json(review);
+            }
+
+        })
+        .catch((e) => next(e))
+       
+}
 

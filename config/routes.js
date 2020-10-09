@@ -37,7 +37,7 @@ router.get('/reviews', reviewController.list)
 router.post('/review/add/:id',  authMiddleware.isAuthenticated, reviewController.addReview)
 
 //Delete a review you wrote
-router.post('/review/delete/:_id',  authMiddleware.isAuthenticated, reviewController.deleteReview)
+router.delete('/review/delete/:id',  authMiddleware.isAuthenticated, reviewController.deleteReview)
 
 //Edit a review you wrote
-
+router.patch('/review/edit/:id', authMiddleware.isAuthenticated, reviewController.updateReview)

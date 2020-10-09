@@ -22,9 +22,9 @@ module.exports.listUserProducts = (req, res, next) => {
 
 module.exports.listOtherProducts = (req, res, next) => {
   Product.find({"user":{$ne: req.params.id}})
-  .then(user => {
+  .then(product => {
     
-    res.json(user.reviews)
+    res.json(product.reviews)
   })
   .catch((e) => next(e));
 }
