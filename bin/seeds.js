@@ -10,7 +10,11 @@ const userN = 30;
 const productN = 5;
 const reviewN = 5;
 
-Promise.all([User.deleteMany(), Product.deleteMany()])
+Promise.all([
+  User.deleteMany(), 
+  Product.deleteMany(),
+  Review.deleteMany()
+])
   .then(() => {
     for (let i = 0; i < userN; i++) {
       const user = new User({
@@ -20,11 +24,12 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
         address: faker.address.streetAddress(),
         image: faker.image.avatar()
       });
+      console.log(user)
+
       user
         .save()
         .then((u) => {
-          console.log(u.email);
-          userIds.push(u.id);
+          userIds.push(u._id);
           for (let i = 0; i < productN; i++) {
             const product = new Product({
               name: faker.commerce.productName(),
@@ -33,10 +38,11 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
               image: faker.image.image(),
               user: u._id,
             });
+
             product
               .save()
               .then((p) => {
-                console.log(p.name);
+
                 if (userIds.length >= 2) {
                   for (let i = 0; i < reviewN; i++) {
                     const review = new Review({
@@ -52,6 +58,7 @@ Promise.all([User.deleteMany(), Product.deleteMany()])
                       console.log(r.title);
                     });
                   }
+
                 }
               })
               .catch((e) => console.log(e));

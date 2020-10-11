@@ -32,6 +32,7 @@ const reviewSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: (document, toReturn) => {
         toReturn.id = document._id;
         delete toReturn.__v;
@@ -43,6 +44,13 @@ const reviewSchema = new mongoose.Schema(
     },
   }
 );
+
+reviewSchema.virtual('users', {
+  ref: 'User',
+  localField: '_id',
+  foreignField: 'review',
+  justOne: false,
+});
 
 const Review = mongoose.model("Review", reviewSchema);
 

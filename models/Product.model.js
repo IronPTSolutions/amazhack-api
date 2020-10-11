@@ -39,10 +39,12 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-productSchema.virtual("reviews", {
-  ref: "Review",
-  localField: "_id",
-  foreignField: "product",
+
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'product',
+  justOne: false
 });
 
 const Product = mongoose.model("Product", productSchema);

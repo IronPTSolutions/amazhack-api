@@ -1,4 +1,5 @@
 const Product = require("../models/Product.model");
+const User= require("../models/User.model");
 const Review = require("../models/Review.model");
 const createError = require("http-errors");
 
@@ -7,10 +8,39 @@ module.exports.list = (req, res, next) => {
     .populate("reviews")
     .populate("user")
     .then((products) => {
+      
       res.json(products);
     })
     .catch((e) => next(e));
 };
+
+module.exports.listUserProducts = (req, res, next) => {
+  Product.find({"user":req.params.id})
+  .then(user => {
+    
+    res.json(user)
+  })
+  .catch((e) => next(e));
+}
+
+
+module.exports.listOtherProducts = (req, res, next) => {
+  Product.find({"user":{$ne: req.params.id}})
+  .then(product => {
+    
+    res.json(product.reviews)
+  })
+  .catch((e) => next(e));
+}
+module.exports.searchProduct = (req, res, next) => {
+  console.log(req.query.name)
+  Product.find({'name': {$regex: req.query.name , $options: "i"}} )
+  .then(product => {
+      console.log(product)
+    res.json(product)
+  })
+  .catch((e) => next(e));
+}
 
 module.exports.create = (req, res, next) => {
   const product = new Product({
@@ -105,3 +135,4 @@ module.exports.deleteReview = (req, res, next) => {
     })
     .catch((e) => next(e));
 };
+
